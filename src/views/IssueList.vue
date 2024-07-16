@@ -32,7 +32,7 @@ export default {
       try {
         const response = await axios.get('https://api.github.com/repos/RosauraGuevara/toDo/issues', {
           headers: {
-            'Authorization': ''
+            'Authorization': '${process.env.VUE_APP_GITHUB_TOKEN}'
           }
         });
         this.issues = response.data;
@@ -47,7 +47,7 @@ export default {
           state: 'closed'
         }, {
           headers: {
-            'Authorization': ''
+            'Authorization': 'token ${process.env.VUE_APP_GITHUB_TOKEN}'
           }
         });
         console.log('Issue cerrado:', response.data);
