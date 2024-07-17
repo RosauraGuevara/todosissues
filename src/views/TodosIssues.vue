@@ -32,7 +32,7 @@ import TodoItem from '@/components/TodoItem';
 const client = axios.create({
   baseURL: process.env.VUE_APP_GITHUB_ENDPOINT,
   headers: {
-    'Authorization': 'token ${process.env.VUE_APP_GITHUB_TOKEN}',
+    'Authorization': `token ${process.env.VUE_APP_GITHUB_TOKEN}`,
     'Accept': 'application/vnd.github.v3+json',
     'Content-Type': 'application/json',
   },
