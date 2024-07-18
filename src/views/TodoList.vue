@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h1>lista de tareas</h1>
+    <h1>Lista de tareas</h1>
     <form @submit.prevent="addTodo()">
       <input v-model="todo">
+      <button type="submit">Agregar</button>
     </form>
     <el-row :gutter="12">
-      <el-col :span="12"  v-for="( todo, index ) in todos" :key="index">
+      <el-col :span="12" v-for="(todo, index) in todos" :key="index">
         <el-card class="box-card" shadow="hover" style="margin: 5px 0;">
           <el-row :gutter="12">
             <el-col :span="21">{{ todo }}</el-col>
@@ -18,6 +19,7 @@
     </el-row>
   </div>
 </template>
+
 <script>
 export default {
   name: 'TodoList',
@@ -30,6 +32,7 @@ export default {
   methods: {
     addTodo(){
       this.todos.push(this.todo);
+      this.$emit('new-todo', this.todo); 
       this.todo = '';
     },
     removeTodo(index){

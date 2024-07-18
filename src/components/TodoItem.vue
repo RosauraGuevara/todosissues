@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     handleDone() {
-      this.$emit('done', this.index);
+      this.$emit('done', this.index); // Emitir evento 'done' con el índice
     }
   }
 }

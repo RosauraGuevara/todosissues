@@ -1,29 +1,15 @@
 <template>
   <div>
-    <h1>Lista de tareas</h1>
+    <h1>Lista de tareas e incidencias</h1>
     <form @submit.prevent="addTodo()">
       <el-input placeholder="todo" v-model="todo"></el-input>
     </form>
     <el-row :gutter="12">
-      <TodoItem v-for="(todo, index) in todos" :key="index" :todo="todo" :index="index" @done="removeTodo" />
-    </el-row>
-
-    <el-row :gutter="12">
-      <el-col :span="12" v-for="(issue, issueIndex) in issues" :key="issue.id">
-        <el-card class="box-card" shadow="hover" style="margin: 5px 0;">
-          <el-row :gutter="12">
-            <el-col :span="21">{{ issue.title }}</el-col>
-            <el-col :span="3">
-              <el-button @click="closeIssue(issueIndex)" type="success" icon="el-icon-check" circle></el-button>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
+      <TodoItem v-for="(todo, index) in todos" :key="'todo-' + index" :todo="todo" :index="index" @done="removeTodo" />
+      <TodoItem v-for="(issue, index) in issues" :key="'issue-' + index" :todo="issue.title" :index="index" @done="closeIssue" />
     </el-row>
   </div>
 </template>
-
-
 
 <script>
 import axios from 'axios';
@@ -61,14 +47,14 @@ export default {
     removeTodo(index) {
       this.todos.splice(index, 1);
     },
-    closeIssue(issueIndex) {
-      const target = this.issues[issueIndex];
-      client.patch(`/issues/${target.number}`, { state: 'closed' })
+    closeIssue(index) {
+      const issue = this.issues[index];
+      client.patch(`/issues/${issue.number}`, { state: 'closed' })
         .then(() => {
-          this.issues.splice(issueIndex, 1);
+          this.issues.splice(index, 1);
         })
         .catch((error) => {
-          console.error('Error al cerrar la incidencia:', error);
+          console.error('Error closing issue:', error);
         });
     },
     getIssues() {
@@ -77,13 +63,9 @@ export default {
           this.issues = res.data;
         })
         .catch((error) => {
-          console.error('Error al obtener las incidencias:', error);
+          console.error('Error fetching issues:', error);
         });
     }
-  },
+  }
 };
 </script>
-
-<style>
-
-</style>

@@ -36,30 +36,24 @@ export default {
           }
         });
         this.issues = response.data;
-        console.log('Issues:', this.issues);
       } catch (error) {
         console.error('Error fetching issues:', error);
       }
     },
     async closeIssue(issueNumber) {
       try {
-        const response = await axios.patch(`https://api.github.com/repos/RosauraGuevara/toDo/issues/${issueNumber}`, {
+        await axios.patch(`https://api.github.com/repos/RosauraGuevara/toDo/issues/${issueNumber}`, {
           state: 'closed'
         }, {
           headers: {
             'Authorization': `token ${process.env.VUE_APP_GITHUB_TOKEN}`
           }
         });
-        console.log('Issue cerrado:', response.data);
         this.issues = this.issues.filter(issue => issue.number !== issueNumber);
       } catch (error) {
-        console.error('Error cerrando issue:', error);
+        console.error('Error closing issue:', error);
       }
     }
   }
 };
 </script>
-
-<style>
-
-</style>
